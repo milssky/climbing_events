@@ -1,0 +1,40 @@
+{% extends 'events/base.html' %}
+{% block container %}
+{% load active_link_tags %}
+<section>
+  <h1 class="h1 text-center my-5 ">{{ event.title }}</h1>
+</section>
+<section>
+  <div class="row">
+    <div class="col-12 col-lg-4">
+      <aside class="pt-3 pb-4 px-4 mb-5 card">
+        <div class="nav flex-column nav-pills">
+          <a class="nav-link {% active_link 'event' strict=True event_id=event.id %}"
+             href="{% url 'event' event.id %}">Описание</a>
+          <a class="nav-link {% active_link 'event_registration' strict=True event_id=event.id %}"
+             href="{% url 'event_registration' event.id %}">Регистрация</a>
+          <a class="nav-link {% active_link 'event_enter' strict=True event_id=event.id %}"
+             href="{% url 'event_enter' event.id %}">Внести результат</a>
+          <a class="nav-link {% active_link 'event_participants' strict=True event_id=event.id %}"
+             href="{% url 'event_participants' event.id %}">Участники</a>
+          <a class="nav-link {% active_link 'event_results' strict=True event_id=event.id %}"
+             href="{% url 'event_results' event.id %}">Результаты</a>
+          <a class="nav-link {% active_link 'event_admin' strict=True event_id=event.id %}"
+             href="{% url 'event_admin' event.id %}">Управление</a>
+        </div>
+      </aside>
+    </div>
+    <div class="col-12 col-lg-8">
+      <div class="card">
+        <div class="card-body px-4 pb-4">
+          <!-- Tab -->
+          <section class="tab-pane fade show active">
+            {% block content %} {% endblock %}
+          </section>
+          <!-- END Tab -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

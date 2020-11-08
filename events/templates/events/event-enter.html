@@ -1,0 +1,29 @@
+{% extends 'events/event-base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1 class="h2 text-center">Ввод результатов</h1>
+<form method="post" action="">
+  {% crispy participant_form %}
+  {{ formset.management_form }}
+  {% for form in formset %}
+  {% crispy form %}
+  {% endfor %}
+  <div class="form-actions">
+    <input type="submit" name="submit" value="Save" class="btn btn-primary" id="submit-save">
+  </div>
+</form>
+
+<input type="text" id="pin-code" oninput="foo(this.value)"><br>
+<button type="button"
+        id="check-pin-code-sender"
+        onclick="CheckPinCode(
+          event,
+          {{ event.id }},
+          'check-pin-code-text',
+        'pin-code')">Send data</button><br>
+<p id="check-pin-code-text">foo bar</p>
+
+
+<script src="/static/events/js/check_pin_code.js"></script>
+{% endblock %}
+

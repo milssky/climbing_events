@@ -1,0 +1,15 @@
+{% extends 'events/event-base.html' %}
+{% block content %}
+
+<h1 class="h1 text-center ">просмотр результатов</h1>
+
+{% for participant in participants %}
+  {{ participant }}:<br>
+    {% for accent in participant.accent.all %}
+     #{{ accent.route.number }}: {{ accent.accent }} |
+    {% endfor %}
+  <hr>
+{% endfor %}
+
+{% endblock %}
+
