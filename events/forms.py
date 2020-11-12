@@ -42,23 +42,11 @@ class EventAdminServiceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.layout = Layout(
 
-            TabHolder(
-                Tab('First Tab',
-                    'field_name_1',
-                    FormActions(
-                        Button('clear_event', 'Очистить событие', css_class='btn-primary'),
-                        Button('create_routes', 'Создать трассы', css_class='btn-primary'),
-                        Submit('create_participant', 'Создать участника', css_class='btn-primary'),
-                        Button('update_score', 'Посчтитать рузультаты', css_class='btn-primary'),
-                    ),
-                    ),
-                Tab('Second Tab',
-                    EventAdminForm()
-                    )
-            )
-        )
+        self.helper.add_input(Submit('clear_event', 'Очистить событие', css_class='btn-primary'))
+        self.helper.add_input(Submit('create_routes', 'Создать трассы', css_class='btn-primary'))
+        self.helper.add_input(Submit('create_participant', 'Создать участника', css_class='btn-primary'))
+        self.helper.add_input(Submit('update_score', 'Посчтитать рузультаты', css_class='btn-primary'))
 
 
 class AccentForm(forms.Form):

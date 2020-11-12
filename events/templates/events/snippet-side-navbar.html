@@ -13,10 +13,14 @@
       <a class="nav-link {% active_link 'event_results' strict=True event_id=event.id %}"
          href="{% url 'event_results' event.id %}">Результаты</a>
 
-
+      <hr>
       <div class="sb-sidenav-menu-heading">Админка</div>
       <a class="nav-link {% active_link 'event_admin' strict=True event_id=event.id %}"
          href="{% url 'event_admin' event.id %}">Управление</a>
+      <a class="nav-link {% active_link 'event_admin_description' strict=True event_id=event.id %}"
+         href="{% url 'event_admin_description' event.id %}">Описание</a>
+      <a class="nav-link {% active_link 'event_admin_settings' strict=True event_id=event.id %}"
+         href="{% url 'event_admin_settings' event.id %}">Настройки</a>
 
     </div>
   </div>

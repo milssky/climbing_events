@@ -45,17 +45,14 @@ class EventAdminView(views.View):
             template_name='events/event-admin.html',
             context={
                 'event': event,
-                'form': EventAdminForm(instance=event, prefix='admin_form'),
-                'service_form': EventAdminServiceForm(prefix='service_form'),
+                'form': EventAdminServiceForm(prefix='service_form'),
             }
         )
 
     @staticmethod
     def post(request, event_id):
         event = Event.objects.get(id=event_id)
-        service_form = EventAdminServiceForm(request.POST, prefix='service_form')
-        form = EventAdminForm(request.POST, prefix='admin_form')
-        print(service_form)
+        # service_form = EventAdminServiceForm(request.POST, prefix='service_form')
         if 'clear_event' in request.POST:
             services.clear_event(event=event)
         elif 'create_participant' in request.POST:
@@ -72,6 +69,33 @@ class EventAdminView(views.View):
             pass
         return redirect('event_admin', event_id)
 
+
+class EventAdminDescriptionView(views.View):
+    @staticmethod
+    def get(request, event_id):
+        event = Event.objects.get(id=event_id)
+        return render(
+            request=request,
+            template_name='events/event-admin-description.html',
+            context={
+                'event': event,
+                'form': EventAdminForm(instance=event, prefix='admin_form'),
+            }
+        )
+
+
+class EventAdminSettingsView(views.View):
+    @staticmethod
+    def get(request, event_id):
+        event = Event.objects.get(id=event_id)
+        return render(
+            request=request,
+            template_name='events/event-admin-settings.html',
+            context={
+                'event': event,
+                'form': EventAdminForm(instance=event, prefix='admin_form'),
+            }
+        )
 
 class EventEnterView(views.View):
     @staticmethod
