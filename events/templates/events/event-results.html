@@ -1,7 +1,9 @@
 {% extends 'events/event-base.html' %}
-{% block content %}
+{% block title %}
+Просмотр результатов
+{% endblock %}
 
-<h1 class="h1 text-center ">просмотр результатов</h1>
+{% block content %}
 
 {% for participant in participants %}
   {{ participant }}:<br>

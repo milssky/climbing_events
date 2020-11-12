@@ -12,6 +12,7 @@ from events import services
 class MainView(views.View):
     @staticmethod
     def get(request):
+        return redirect('event', event_id=1)
         events = Event.objects.all()
         return render(
             request=request,
