@@ -14,6 +14,12 @@ class ParticipantRegistrationForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Зарегистрироваться'))
         self.helper.label_class = 'mb-1'
 
+        self.fields['birth_year'].required = False
+        self.fields['city'].required = False
+        self.fields['team'].required = False
+        self.fields['grade'].required = False
+
+
     class Meta:
         model = Participant
         fields = [
@@ -24,6 +30,14 @@ class ParticipantRegistrationForm(forms.ModelForm):
             'team',
             'grade',
         ]
+        labels = {
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+            'birth_year': 'Год рождения',
+            'city': 'Город',
+            'team': 'Команда',
+            'grade': 'Спортивный разряд',
+        }
 
 
 class EventAdminForm(forms.ModelForm):

@@ -201,7 +201,7 @@ class EventRegistrationView(views.View):
         form = ParticipantRegistrationForm(request.POST, request.FILES)
         event = Event.objects.get(id=event_id)
         if form.is_valid():
-            services.create_participant_with_default_accents(
+            participant = services.create_participant_with_default_accents(
                 event=event,
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
@@ -210,13 +210,28 @@ class EventRegistrationView(views.View):
                 team=form.cleaned_data['team'],
                 grade=form.cleaned_data['grade'],
             )
-            return redirect('event_participants', event_id=event_id)
+            return redirect('event_registration_ok', event_id=event_id, participant_id=participant.id)
         return render(
             request=request,
             template_name='events/event-registration.html',
             context={
                 'event': event,
                 'form': form,
+            }
+        )
+
+
+class EventRegistrationOkView(views.View):
+    @staticmethod
+    def get(request, event_id, participant_id):
+        event = Event.objects.get(id=event_id)
+        participant = Participant.objects.get(id=participant_id)
+        return render(
+            request=request,
+            template_name='events/event-registration-ok.html',
+            context={
+                'event': event,
+                'participant': participant,
             }
         )
 
