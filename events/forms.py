@@ -94,7 +94,12 @@ class AccentParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = [
-            'pin',
             'first_name',
             'last_name',
+            'pin',
         ]
+        labels = {
+            'pin': 'PIN-код',
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+        }

@@ -5,8 +5,30 @@
 
 {% block content %}
 
-{% for participant in participants %}
-<div>{{ participant }}</div>
-{% endfor %}
+<table class="table table-bordered table-hover table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+  <thead>
+  <tr>
+    <th style="width:10%">#</th>
+    <th>Участник</th>
+    <th>Год рождения</th>
+    <th>Город</th>
+    <th>Команда</th>
+    <th>Разряд</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for participant in participants %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+    <td>{% if participant.birth_year is not None %}{{ participant.birth_year }}{% endif %}</td>
+    <td>{% if participant.city is not None %}{{ participant.city }}{% endif %}</td>
+    <td>{% if participant.team is not None %}{{ participant.team }}{% endif %}</td>
+    <td>{{ participant.get_grade_display }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
 
 {% endblock %}

@@ -5,7 +5,23 @@
 {% endblock %}
 {% block content %}
 <form method="post" action="">
-  {% crispy participant_form %}
+  {% csrf_token %}
+  <!--  {% crispy participant_form %}-->
+  <div id="div_id_participant-pin" class="form-group">
+    <label for="id_participant-pin" class="">PIN-код</label>
+    <div class=""><input type="number" name="participant-pin" min="0" class="numberinput form-control"
+                         id="id_participant-pin"
+                         oninput="CheckPinCode(
+                                          event,
+                                          {{ event.id }},
+                                          this.value)"></div>
+  </div>
+  <div class="alert alert-success" role="alert" style="display: none;" id="alert-ok">
+    Найден участник:
+  </div>
+  <div class="alert alert-danger" role="alert" style="display: none;" id="alert-error">
+    Участник не найден. Проверьте PIN-код, или <a href="{% url 'event_registration' event.id %}">зарегистрируйтесь</a>
+  </div>
   {{ formset.management_form }}
   {% for form in formset %}
   {% crispy form %}
@@ -14,17 +30,6 @@
     <input type="submit" name="submit" value="Save" class="btn btn-primary" id="submit-save">
   </div>
 </form>
-
-<input type="text" id="pin-code" oninput="foo(this.value)"><br>
-<button type="button"
-        id="check-pin-code-sender"
-        onclick="CheckPinCode(
-          event,
-          {{ event.id }},
-          'check-pin-code-text',
-        'pin-code')">Send data</button><br>
-<p id="check-pin-code-text">foo bar</p>
-
 
 <script type="text/javascript" src="/static/events/js/check_pin_code.js"></script>
 {% endblock %}

@@ -102,7 +102,6 @@ class EventEnterView(views.View):
     def get(request, event_id):
         event = Event.objects.get(id=event_id)
         initial = [{'label': i} for i in range(event.routes_num)]
-        # print(initial)
         AccentFormSet = formset_factory(AccentForm, extra=0)
         formset = AccentFormSet(initial=initial, prefix='accents')
         return render(
@@ -133,7 +132,7 @@ class EventEnterView(views.View):
                     last_name=participant_form.cleaned_data['last_name'],
                 )
             participant_accents = Accent.objects.filter(participant=participant, event=event)
-            print(participant_accents)
+            print('participant_accents', participant_accents)
             for index, accent in enumerate(participant_accents):
                 accent.accent = accent_formset.cleaned_data[index]['accent']
                 accent.route = Route.objects.get(event=event, number=index + 1)
@@ -163,7 +162,7 @@ class EventResultsView(views.View):
             template_name='events/event-results.html',
             context={
                 'event': event,
-                'participants': event.participant.all(),
+                'participants': event.participant.order_by('-score'),
             }
         )
 
@@ -237,14 +236,11 @@ class EventRegistrationOkView(views.View):
 
 
 def check_pin_code(request):
-    print('in check_pin_code')
-    print(request.GET)
     pin = request.GET.get('pin')
     event_id = request.GET.get('event_id')
     try:
         participant = Participant.objects.get(pin=pin, event__id=event_id)
-        print(participant)
-        response = {'response': f'Found: {str(participant)}'}
+        response = {'Find': True, 'participant': f'{participant.first_name} {participant.last_name}'}
     except Participant.DoesNotExist:
-        response = {'response': 'Participant not found'}
+        response = {'Find': False}
     return JsonResponse(response)
