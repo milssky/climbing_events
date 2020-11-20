@@ -40,16 +40,58 @@ class ParticipantRegistrationForm(forms.ModelForm):
         }
 
 
-class EventAdminForm(forms.ModelForm):
+class EventAdminDescriptionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Отправить'))
+        self.helper.add_input(Submit('submit', 'Сохранить'))
 
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = [
+            'title',
+            'date',
+            'poster',
+            'description',
+        ]
+        labels = {
+            'title': 'Название',
+            'date': 'Дата (YYYY-MM-DD)',
+            'poster': 'Афиша',
+            'description': 'Описание',
+        }
+
+
+class EventAdminSettingsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Сохранить'))
+
+    class Meta:
+        model = Event
+        fields = [
+            'routes_num',
+            'is_published',
+            'is_registration_open',
+            'is_results_allowed',
+            'is_enter_result_allowed',
+            'score_type',
+            'flash_points',
+            'redpoint_points',
+        ]
+        labels = {
+            'routes_num': 'Количество трасс',
+            'is_published': 'Событие опубликовано',
+            'is_registration_open': 'Регистрация на событие разрешена',
+            'is_results_allowed': 'Просмотр результатов разрешён',
+            'is_enter_result_allowed': 'Ввод результатов разрешён',
+            'score_type': 'Тип подсчёта результатов',
+            'flash_points': 'Очки за Flash',
+            'redpoint_points': 'Очки за Redpoint',
+        }
 
 
 class EventAdminServiceForm(forms.Form):

@@ -6,7 +6,7 @@ from config import settings
 class Event(models.Model):
     title = models.CharField(max_length=128)
     date = models.DateField(null=True)
-    poster = models.ImageField(upload_to=settings.MEDIA_POSTERS_DIR, blank=True)
+    poster = models.ImageField(upload_to=settings.MEDIA_POSTERS_DIR, blank=True, null=True)
     description = models.TextField(null=True)
     routes_num = models.IntegerField(null=True)
     is_published = models.BooleanField(default=False)

@@ -4,6 +4,10 @@
 Ввод результатов
 {% endblock %}
 {% block content %}
+
+{% if event.is_published %}
+  {% if event.is_enter_result_allowed %}
+
 <form method="post" action="">
   {% csrf_token %}
   <!--  {% crispy participant_form %}-->
@@ -32,5 +36,16 @@
 </form>
 
 <script type="text/javascript" src="/static/events/js/check_pin_code.js"></script>
+
+
+  {% else %}
+    {% include 'events/snippet-card-banner.html' with message='Ввод результатов закрыт' %}
+  {% endif %}
+{% else %}
+  {% include 'events/snippet-card-banner.html' with message='Событие не опубликовано' %}
+{% endif %}
+
+
+
 {% endblock %}
 

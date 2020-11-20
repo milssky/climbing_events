@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block content %}
-
-<table class="table table-bordered table-hover table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+{% if event.is_published %}
+  <table class="table table-bordered table-hover table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
   <thead>
   <tr>
     <th style="width:10%">#</th>
@@ -30,5 +30,8 @@
   </tbody>
 </table>
 
+{% else %}
+  {% include 'events/snippet-card-banner.html' with message='Событие не опубликовано' %}
+{% endif %}
 
 {% endblock %}

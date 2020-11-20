@@ -3,8 +3,8 @@ from django.forms import formset_factory
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from events.forms import ParticipantRegistrationForm, EventAdminForm, AccentForm, AccentParticipantForm, \
-    EventAdminServiceForm
+from events.forms import ParticipantRegistrationForm, EventAdminDescriptionForm, AccentForm, AccentParticipantForm, \
+    EventAdminServiceForm, EventAdminSettingsForm
 from events.models import Event, Participant, Route, Accent
 from events import services
 
@@ -79,9 +79,32 @@ class EventAdminDescriptionView(views.View):
             template_name='events/event-admin-description.html',
             context={
                 'event': event,
-                'form': EventAdminForm(instance=event, prefix='admin_form'),
+                'form': EventAdminDescriptionForm(instance=event),
             }
         )
+
+    @staticmethod
+    def post(request, event_id):
+        event = Event.objects.filter(id=event_id)
+        form = EventAdminDescriptionForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            event.update(
+                title=cd['title'],
+                date=cd['date'],
+                poster=cd['poster'],
+                description=cd['description'],
+            )
+            return redirect('event_admin_description', event_id)
+        else:
+            return render(
+                request=request,
+                template_name='events/event-admin-description.html',
+                context={
+                    'event': event,
+                    'form': EventAdminDescriptionForm(request.POST),
+                }
+            )
 
 
 class EventAdminSettingsView(views.View):
@@ -93,9 +116,36 @@ class EventAdminSettingsView(views.View):
             template_name='events/event-admin-settings.html',
             context={
                 'event': event,
-                'form': EventAdminForm(instance=event, prefix='admin_form'),
+                'form': EventAdminSettingsForm(instance=event),
             }
         )
+
+    @staticmethod
+    def post(request, event_id):
+        event = Event.objects.filter(id=event_id)
+        form = EventAdminSettingsForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            event.update(
+                routes_num=cd['routes_num'],
+                is_published=cd['is_published'],
+                is_registration_open=cd['is_registration_open'],
+                is_enter_result_allowed=cd['is_enter_result_allowed'],
+                is_results_allowed=cd['is_results_allowed'],
+                score_type=cd['score_type'],
+                flash_points=cd['flash_points'],
+                redpoint_points=cd['redpoint_points'],
+            )
+            return redirect('event_admin_settings', event_id)
+        else:
+            return render(
+                request=request,
+                template_name='events/event-admin-settings.html',
+                context={
+                    'event': event,
+                    'form': EventAdminSettingsForm(request.POST),
+                }
+            )
 
 class EventEnterView(views.View):
     @staticmethod

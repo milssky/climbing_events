@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block content %}
-
-{% crispy form %}
+{% if event.is_published %}
+  {% if event.is_registration_open %}
+    {% crispy form %}
+  {% else %}
+    {% include 'events/snippet-card-banner.html' with message='Регистрация закрыта' %}
+  {% endif %}
+{% else %}
+  {% include 'events/snippet-card-banner.html' with message='Событие не опубликовано' %}
+{% endif %}
 
 {% endblock %}
