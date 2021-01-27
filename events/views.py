@@ -64,6 +64,7 @@ class EventAdminView(views.View):
         elif 'create_routes' in request.POST:
             services.create_event_routes(event=event)
         elif 'update_score' in request.POST:
+            services.update_routes_points(event=event)
             services.update_participants_score(event=event)
         else:
             pass
@@ -132,6 +133,7 @@ class EventAdminSettingsView(views.View):
                 is_registration_open=cd['is_registration_open'],
                 is_enter_result_allowed=cd['is_enter_result_allowed'],
                 is_results_allowed=cd['is_results_allowed'],
+                is_count_only_entered_results=cd['is_count_only_entered_results'],
                 score_type=cd['score_type'],
                 flash_points=cd['flash_points'],
                 redpoint_points=cd['redpoint_points'],

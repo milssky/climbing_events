@@ -13,6 +13,7 @@ class Event(models.Model):
     is_registration_open = models.BooleanField(default=False)
     is_results_allowed = models.BooleanField(default=False)
     is_enter_result_allowed = models.BooleanField(default=False)
+    is_count_only_entered_results = models.BooleanField(default=False)
 
     SCORE_SIMPLE_SUM = 'SUM'
     SCORE_PROPORTIONAL = 'PROP'

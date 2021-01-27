@@ -12,7 +12,7 @@
          href="{% url 'event_participants' event.id %}">Участники</a>
       <a class="nav-link {% active_link 'event_results' strict=True event_id=event.id %}"
          href="{% url 'event_results' event.id %}">Результаты</a>
-
+      {% if user.is_superuser %}
       <hr>
       <div class="sb-sidenav-menu-heading">Админка</div>
       <a class="nav-link {% active_link 'event_admin' strict=True event_id=event.id %}"
@@ -21,7 +21,7 @@
          href="{% url 'event_admin_description' event.id %}">Описание</a>
       <a class="nav-link {% active_link 'event_admin_settings' strict=True event_id=event.id %}"
          href="{% url 'event_admin_settings' event.id %}">Настройки</a>
-
+      {% endif %}
     </div>
   </div>
   <div class="sb-sidenav-footer">

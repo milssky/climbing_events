@@ -54,17 +54,32 @@ def create_participant_with_default_accents(event: Event, first_name: str, last_
 
 
 def update_routes_points(event: Event) -> None:
-    pass
+    for route in event.route.all():
+        if event.score_type == Event.SCORE_PROPORTIONAL:
+            c = len(event.accent.filter(route=route).exclude(accent=Accent.ACCENT_NO))
+            try:
+                route.points = 1 / c
+            except ZeroDivisionError:
+                pass
+        else:
+            route.points = 1
+        route.save()
 
 
 def update_participants_score(event: Event) -> None:
     for participant in event.participant.all():
         participant.score = 0
         print(participant)
+        score_type = event.score_type
         for index, accent in enumerate(participant.accent.all()):
             if accent.accent == Accent.ACCENT_FLASH:
-                participant.score += event.flash_points
+                if score_type == Event.SCORE_SIMPLE_SUM:
+                    participant.score += event.flash_points
+                else:
+                    participant.score += event.flash_points * accent.route.points
             if accent.accent == Accent.ACCENT_REDPOINT:
-                participant.score += event.redpoint_points
+                if score_type == Event.SCORE_SIMPLE_SUM:
+                    participant.score += event.redpoint_points
+                else:
+                    participant.score += event.redpoint_points * accent.route.points
         participant.save()
-        print(participant)
