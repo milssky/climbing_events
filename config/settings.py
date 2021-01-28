@@ -127,3 +127,7 @@ MEDIA_ROOT = 'media'
 MEDIA_POSTERS_DIR = 'posters'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
