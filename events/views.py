@@ -134,6 +134,7 @@ class EventAdminSettingsView(views.View):
                 is_enter_result_allowed=cd['is_enter_result_allowed'],
                 is_results_allowed=cd['is_results_allowed'],
                 is_count_only_entered_results=cd['is_count_only_entered_results'],
+                is_view_full_results=cd['is_view_full_results'],
                 score_type=cd['score_type'],
                 flash_points=cd['flash_points'],
                 redpoint_points=cd['redpoint_points'],
@@ -189,6 +190,7 @@ class EventEnterView(views.View):
                 accent.accent = accent_formset.cleaned_data[index]['accent']
                 accent.route = Route.objects.get(event=event, number=index + 1)
                 accent.save()
+                print(accent)
             # Accent.objects.bulk_update(participant_accents, ['accent', 'route', ])
             services.update_routes_points(event=event)
             services.update_participants_score(event=event)
@@ -209,12 +211,25 @@ class EventResultsView(views.View):
     @staticmethod
     def get(request, event_id):
         event = Event.objects.get(id=event_id)
+        sorted_participants = event.participant.order_by('-score')
+        sorted_accents = []
+        for p in sorted_participants:
+            accents = event.accent.filter(participant=p)
+            sorted_accents.append(accents)
+        print(sorted_accents)
+
+        data = []
+        for i, p in enumerate(sorted_participants):
+            data.append({'p': p, 'a': sorted_accents[i]})
         return render(
             request=request,
             template_name='events/event-results.html',
             context={
                 'event': event,
                 'participants': event.participant.order_by('-score'),
+                'routes': range(1, event.routes_num + 1),
+                'sorted_accents': sorted_accents,
+                'data': data,
             }
         )
 

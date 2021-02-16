@@ -28,7 +28,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = '5#p-+wt$kvc7oh5lo!sm=^99d%f3)68v-+t(4=mpg*l-s4f)$n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DEBUG', True))
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

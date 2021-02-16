@@ -11,18 +11,40 @@
   <thead>
   <tr>
     <th style="width:10%">Место</th>
-    <th style="width:70%">Участник</th>
+    <th>Участник</th>
+    {% if event.is_view_full_results %}
+      {% for i in routes %}
+        <th>T#{{i}}</th>
+      {% endfor %}
+    {% endif %}
     <th>Результат</th>
   </tr>
   </thead>
   <tbody>
-  {% for participant in participants %}
+  {% for d in data %}
   <tr>
     <td>{{ forloop.counter }}</td>
-    <td>{{ participant.first_name }} {{ participant.last_name }}</td>
-    <td>{{ participant.score }}</td>
+    <td>{{ d.p.first_name }} {{ d.p.last_name }}</td>
+    {% if event.is_view_full_results %}
+      {% for a in d.a %}
+        <td>{{ a.accent }}</td>
+      {% endfor %}
+    {% endif %}
+    <td>{{ d.p.score }}</td>
   </tr>
   {% endfor %}
+
+
+<!--  {% for participant in participants %}-->
+<!--  <tr>-->
+<!--    <td>{{ forloop.counter }}</td>-->
+<!--    <td>{{ participant.first_name }} {{ participant.last_name }}</td>-->
+<!--    {% for d in data %}-->
+<!--      <td>{{d}}</td>-->
+<!--    {% endfor %}-->
+<!--    <td>{{ participant.score }}</td>-->
+<!--  </tr>-->
+<!--  {% endfor %}-->
   </tbody>
 </table>
 
