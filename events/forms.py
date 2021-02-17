@@ -25,6 +25,7 @@ class ParticipantRegistrationForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'gender',
             'birth_year',
             'city',
             'team',
@@ -33,6 +34,7 @@ class ParticipantRegistrationForm(forms.ModelForm):
         labels = {
             'first_name': 'Имя',
             'last_name': 'Фамилия',
+            'gender': 'Пол',
             'birth_year': 'Год рождения',
             'city': 'Город',
             'team': 'Команда',

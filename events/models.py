@@ -30,6 +30,13 @@ class Event(models.Model):
 class Participant(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
+    GENDER_MALE = 'MALE'
+    GENDER_FEMALE = 'FEMALE'
+    GENDERS = [
+        (GENDER_MALE, 'М'),
+        (GENDER_FEMALE, 'Ж'),
+    ]
+    gender = models.CharField(max_length=6, choices=GENDERS, default=GENDER_MALE)
     birth_year = models.IntegerField(null=True)
     city = models.CharField(null=True, max_length=32)
     team = models.CharField(null=True, max_length=32)

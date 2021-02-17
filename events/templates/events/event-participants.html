@@ -5,11 +5,12 @@
 
 {% block content %}
 {% if event.is_published %}
-  <table class="table table-bordered table-hover table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+<table cellspacing="0" class="table table-bordered table-hover table-striped table-sm" id="dataTable" width="100%">
   <thead>
   <tr>
     <th style="width:10%">#</th>
     <th>Участник</th>
+    <th>Пол</th>
     <th>Год рождения</th>
     <th>Город</th>
     <th>Команда</th>
@@ -17,10 +18,31 @@
   </tr>
   </thead>
   <tbody>
-  {% for participant in participants %}
+  {% for participant in participants_male %}
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+    <td>{{ participant.gender }}</td>
+    <td>{% if participant.birth_year is not None %}{{ participant.birth_year }}{% endif %}</td>
+    <td>{% if participant.city is not None %}{{ participant.city }}{% endif %}</td>
+    <td>{% if participant.team is not None %}{{ participant.team }}{% endif %}</td>
+    <td>{{ participant.get_grade_display }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  {% for participant in participants_female %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+    <td>{{ participant.gender }}</td>
     <td>{% if participant.birth_year is not None %}{{ participant.birth_year }}{% endif %}</td>
     <td>{% if participant.city is not None %}{{ participant.city }}{% endif %}</td>
     <td>{% if participant.team is not None %}{{ participant.team }}{% endif %}</td>
@@ -31,7 +53,7 @@
 </table>
 
 {% else %}
-  {% include 'events/snippet-card-banner.html' with message='Событие не опубликовано' %}
+{% include 'events/snippet-card-banner.html' with message='Событие не опубликовано' %}
 {% endif %}
 
 {% endblock %}

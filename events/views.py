@@ -238,13 +238,15 @@ class EventParticipantsView(views.View):
     @staticmethod
     def get(request, event_id):
         event = Event.objects.get(id=event_id)
-        participants = Participant.objects.filter(event__id=event_id)
+        participants_male = Participant.objects.filter(event__id=event_id, gender='MALE')
+        participants_female = Participant.objects.filter(event__id=event_id, gender='FEMALE')
         return render(
             request=request,
             template_name='events/event-participants.html',
             context={
                 'event': event,
-                'participants': participants,
+                'participants_male': participants_male,
+                'participants_female': participants_female,
             }
         )
 
@@ -271,6 +273,7 @@ class EventRegistrationView(views.View):
                 event=event,
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
+                gender=form.cleaned_data['gender'],
                 birth_year=form.cleaned_data['birth_year'],
                 city=form.cleaned_data['city'],
                 team=form.cleaned_data['team'],

@@ -34,12 +34,14 @@ def clear_event(event: Event) -> None:
 
 
 def create_participant_with_default_accents(event: Event, first_name: str, last_name: str,
+                                            gender: Participant.gender = Participant.GENDER_MALE,
                                             birth_year: int = 2000, city: str = '', team: str = '',
                                             grade: Participant.GRADES = Participant.GRADE_BR,
                                             ) -> Participant:
     participant = Participant.objects.create(
         first_name=first_name,
         last_name=last_name,
+        gender=gender,
         birth_year=birth_year,
         city=city,
         team=team,
