@@ -21,7 +21,7 @@
   </tr>
   </thead>
   <tbody>
-  {% for d in data %}
+  {% for d in sorted_male %}
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ d.p.first_name }} {{ d.p.last_name }}</td>
@@ -33,18 +33,19 @@
     <td>{{ d.p.score }}</td>
   </tr>
   {% endfor %}
-
-
-<!--  {% for participant in participants %}-->
-<!--  <tr>-->
-<!--    <td>{{ forloop.counter }}</td>-->
-<!--    <td>{{ participant.first_name }} {{ participant.last_name }}</td>-->
-<!--    {% for d in data %}-->
-<!--      <td>{{d}}</td>-->
-<!--    {% endfor %}-->
-<!--    <td>{{ participant.score }}</td>-->
-<!--  </tr>-->
-<!--  {% endfor %}-->
+  <tr><td> </td></tr>
+  {% for d in sorted_female %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ d.p.first_name }} {{ d.p.last_name }}</td>
+    {% if event.is_view_full_results %}
+      {% for a in d.a %}
+        <td>{{ a.accent }}</td>
+      {% endfor %}
+    {% endif %}
+    <td>{{ d.p.score }}</td>
+  </tr>
+  {% endfor %}
   </tbody>
 </table>
 

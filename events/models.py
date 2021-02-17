@@ -74,12 +74,13 @@ class Participant(models.Model):
 
 
 class Route(models.Model):
-    points = models.FloatField(default=1)
+    points_male = models.FloatField(default=1)
+    points_female = models.FloatField(default=1)
     number = models.IntegerField()
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='route')
 
     def __str__(self):
-        return f'<Route: N={self.number}, Points={self.points}>'
+        return f'<Route: N={self.number}, P_m={self.points_male}, P_f={self.points_female}>'
 
 
 class Accent(models.Model):

@@ -58,30 +58,48 @@ def create_participant_with_default_accents(event: Event, first_name: str, last_
 def update_routes_points(event: Event) -> None:
     for route in event.route.all():
         if event.score_type == Event.SCORE_PROPORTIONAL:
-            c = len(event.accent.filter(route=route).exclude(accent=Accent.ACCENT_NO))
-            try:
-                route.points = 1 / c
-            except ZeroDivisionError:
-                pass
+            accents_male = len(event.accent.filter(route=route, participant__gender=Participant.GENDER_MALE).exclude(
+                accent=Accent.ACCENT_NO))
+            accents_female = len(
+                event.accent.filter(route=route, participant__gender=Participant.GENDER_FEMALE).exclude(
+                    accent=Accent.ACCENT_NO))
+            if accents_male != 0:
+                route.points_male = 1 / accents_male
+            if accents_female != 0:
+                route.points_female = 1 / accents_female
         else:
-            route.points = 1
+            route.points_male = 1
+            route.points_female = 1
         route.save()
 
 
 def update_participants_score(event: Event) -> None:
     for participant in event.participant.all():
         participant.score = 0
-        print(participant)
         score_type = event.score_type
         for index, accent in enumerate(participant.accent.all()):
+            accent_points = accent.route.points_male if participant.gender == Participant.GENDER_MALE else accent.route.points_female
             if accent.accent == Accent.ACCENT_FLASH:
                 if score_type == Event.SCORE_SIMPLE_SUM:
                     participant.score += event.flash_points
                 else:
-                    participant.score += event.flash_points * accent.route.points
+                    participant.score += event.flash_points * accent_points
             if accent.accent == Accent.ACCENT_REDPOINT:
                 if score_type == Event.SCORE_SIMPLE_SUM:
                     participant.score += event.redpoint_points
                 else:
-                    participant.score += event.redpoint_points * accent.route.points
+                    participant.score += event.redpoint_points * accent_points
         participant.save()
+
+
+def get_sorted_participants_scores_by_gender(event: Event, gender: Participant.GENDERS) -> list:
+    sorted_participants = event.participant.filter(gender=gender).order_by('-score')
+    sorted_accents= []
+    for p in sorted_participants:
+        accents = event.accent.filter(participant=p)
+        sorted_accents.append(accents)
+
+    data = []
+    for i, p in enumerate(sorted_participants):
+        data.append({'p': p, 'a': sorted_accents[i]})
+    return data

@@ -185,13 +185,10 @@ class EventEnterView(views.View):
                     last_name=participant_form.cleaned_data['last_name'],
                 )
             participant_accents = Accent.objects.filter(participant=participant, event=event)
-            print('participant_accents', participant_accents)
             for index, accent in enumerate(participant_accents):
                 accent.accent = accent_formset.cleaned_data[index]['accent']
                 accent.route = Route.objects.get(event=event, number=index + 1)
                 accent.save()
-                print(accent)
-            # Accent.objects.bulk_update(participant_accents, ['accent', 'route', ])
             services.update_routes_points(event=event)
             services.update_participants_score(event=event)
 
@@ -211,16 +208,8 @@ class EventResultsView(views.View):
     @staticmethod
     def get(request, event_id):
         event = Event.objects.get(id=event_id)
-        sorted_participants = event.participant.order_by('-score')
-        sorted_accents = []
-        for p in sorted_participants:
-            accents = event.accent.filter(participant=p)
-            sorted_accents.append(accents)
-        print(sorted_accents)
-
-        data = []
-        for i, p in enumerate(sorted_participants):
-            data.append({'p': p, 'a': sorted_accents[i]})
+        data_male = services.get_sorted_participants_scores_by_gender(event=event, gender=Participant.GENDER_MALE)
+        data_female = services.get_sorted_participants_scores_by_gender(event=event, gender=Participant.GENDER_FEMALE)
         return render(
             request=request,
             template_name='events/event-results.html',
@@ -228,8 +217,8 @@ class EventResultsView(views.View):
                 'event': event,
                 'participants': event.participant.order_by('-score'),
                 'routes': range(1, event.routes_num + 1),
-                'sorted_accents': sorted_accents,
-                'data': data,
+                'sorted_male': data_male,
+                'sorted_female': data_female,
             }
         )
 

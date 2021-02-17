@@ -10,6 +10,9 @@
   <tr>
     <th style="width:10%">#</th>
     <th>Участник</th>
+    {% if user.is_superuser %}
+    <th>Pin</th>
+    {% endif %}
     <th>Пол</th>
     <th>Год рождения</th>
     <th>Город</th>
@@ -22,6 +25,9 @@
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+    {% if user.is_superuser %}
+    <td>{{ participant.pin }}</td>
+    {% endif %}
     <td>{{ participant.gender }}</td>
     <td>{% if participant.birth_year is not None %}{{ participant.birth_year }}{% endif %}</td>
     <td>{% if participant.city is not None %}{{ participant.city }}{% endif %}</td>
@@ -31,17 +37,14 @@
   {% endfor %}
   <tr>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
   </tr>
   {% for participant in participants_female %}
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ participant.first_name }} {{ participant.last_name }}</td>
+    {% if user.is_superuser %}
+    <td>{{ participant.pin }}</td>
+    {% endif %}
     <td>{{ participant.gender }}</td>
     <td>{% if participant.birth_year is not None %}{{ participant.birth_year }}{% endif %}</td>
     <td>{% if participant.city is not None %}{{ participant.city }}{% endif %}</td>
