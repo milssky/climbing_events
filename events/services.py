@@ -94,9 +94,9 @@ def update_participants_score(event: Event) -> None:
 
 def get_sorted_participants_scores_by_gender(event: Event, gender: Participant.GENDERS) -> list:
     sorted_participants = event.participant.filter(gender=gender).order_by('-score')
-    sorted_accents= []
+    sorted_accents = []
     for p in sorted_participants:
-        accents = event.accent.filter(participant=p)
+        accents = event.accent.filter(participant=p).order_by('route__number')
         sorted_accents.append(accents)
 
     data = []
