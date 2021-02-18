@@ -64,9 +64,9 @@ def update_routes_points(event: Event) -> None:
                 event.accent.filter(route=route, participant__gender=Participant.GENDER_FEMALE).exclude(
                     accent=Accent.ACCENT_NO))
             if accents_male != 0:
-                route.points_male = 1 / accents_male
+                route.points_male = round(1 / accents_male, 2)
             if accents_female != 0:
-                route.points_female = 1 / accents_female
+                route.points_female = round(1 / accents_female, 2)
         else:
             route.points_male = 1
             route.points_female = 1
