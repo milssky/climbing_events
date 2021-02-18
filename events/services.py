@@ -89,6 +89,7 @@ def update_participants_score(event: Event) -> None:
                     participant.score += event.redpoint_points
                 else:
                     participant.score += event.redpoint_points * accent_points
+        participant.score = round(participant.score, 2)
         participant.save()
 
 
