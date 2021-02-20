@@ -84,8 +84,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+    }
+}
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -133,7 +138,7 @@ MEDIA_POSTERS_DIR = 'posters'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
-options = DATABASES['default'].get('OPTIONS', {})
-options.pop('sslmode', None)
+# import django_heroku
+# django_heroku.settings(locals())
+# options = DATABASES['default'].get('OPTIONS', {})
+# options.pop('sslmode', None)
